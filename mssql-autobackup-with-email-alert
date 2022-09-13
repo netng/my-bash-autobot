@@ -27,7 +27,7 @@ SENDEMAIL="/usr/bin/sendemail"
 FIND="/usr/bin/find"
 
 # Put your email that you want to receive backup notifications, neither its success or failed
-TO="nandang.sopyan@faasri.com,andi.kurniawan@faasri.com"
+TO="yourmail@xxx.com"
 
 #
 # Here, all the backup functions
