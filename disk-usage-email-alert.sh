@@ -6,7 +6,11 @@
 
 SENDMAIL="/bin/mailx"
 DISK_LIMIT=70
-TO="yourmail@xxx.xxx"
+TO="your-receiver-mail@xxx.xxx"
+DF="/usr/bin/df"
+GREP="/usr/bin/grep"
+AWK="/usr/bin/awk"
+CUT="/usr/bin/cut"
 
 #
 # Here, all the great functions
@@ -19,7 +23,7 @@ function exec() {
 }
 
 function get_disk_percentage_of_home() {
-	HOME=$(/bin/df -h |/bin/grep /dev/mapper/centos-home | /bin/awk {'print $5'} | /bin/cut -d % -f1)
+	HOME=`${DF} -h |${GREP} /dev/mapper/centos-home | ${AWK} {'print $5'} | ${CUT} -d % -f1`
 
 	if [[ $HOME -gt $DISK_LIMIT ]]; then
 		sendmail "FIR DISK USAGE ALERT!" "Disk usage of /home need your attention. Current usage $HOME%"
@@ -27,7 +31,7 @@ function get_disk_percentage_of_home() {
 }
 
 function get_disk_percentage_of_root() {
-	ROOT=$(/bin/df -h |/bin/grep /dev/mapper/centos-root | /bin/awk {'print $5'} | /bin/cut -d % -f1)
+	ROOT=`${DF} -h |${GREP} /dev/mapper/centos-root | ${AWK} {'print $5'} | ${CUT} -d % -f1`
 
 	if [[ $ROOT -gt $DISK_LIMIT ]]; then
 		sendmail "FIR DISK USAGE ALERT!" "Disk usage of /root need your attention. Current usage $ROOT%"
@@ -35,7 +39,7 @@ function get_disk_percentage_of_root() {
 }
 
 function get_disk_percentage_of_boot() {
-	BOOT=$(/bin/df -h |/bin/grep /boot | /bin/awk {'print $5'} | /bin/cut -d % -f1)
+	ROOT=`${DF} -h |${GREP} /boot | ${AWK} {'print $5'} | ${CUT} -d % -f1`
 
 	if [[ $BOOT -gt $DISK_LIMIT ]]; then
 		sendmail "FIR DISK USAGE ALERT!" "Disk usage of /boot need your attention. Current usage $BOOT%"
